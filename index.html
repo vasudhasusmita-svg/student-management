@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerPulse AI | AI-Powered Job Application Tracker for Freshers</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans for high-end SaaS feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Chart.js CDN for Analytics & Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- App Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Brand Logo -->
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">CareerPulse<span class="brand-accent">.AI</span></span>
+          <span class="brand-subtitle">Freshers Edition 🚀</span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- User Mini Profile -->
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Student Avatar" id="sidebarUserAvatar">
+          <span class="status-indicator online"></span>
+        </div>
+        <div class="user-info">
+          <h4 class="user-name" id="sidebarUserName">Alex Johnson</h4>
+          <span class="user-role" id="sidebarUserRole">Class of 2026 • CS Undergrad</span>
+        </div>
+      </div>
+
+      <!-- Quick Action: Add Application -->
+      <div class="sidebar-action">
+        <button class="btn btn-primary btn-block" id="btnSidebarAdd">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Application</span>
+        </button>
+      </div>
+
+      <!-- Navigation Menu (9 items) -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">CORE TRACKER</div>
+        
+        <a href="#dashboard" class="nav-item active" data-section="dashboard">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+
+        <a href="#applications" class="nav-item" data-section="applications">
+          <span class="nav-icon"><i class="fa-solid fa-briefcase"></i></span>
+          <span class="nav-label">My Applications</span>
+          <span class="nav-badge" id="badgeApplicationsCount">0</span>
+        </a>
+
+        <a href="#interviews" class="nav-item" data-section="interviews">
+          <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span>
+          <span class="nav-label">Interview Tracker</span>
+          <span class="nav-badge badge-warning" id="badgeInterviewsCount">0</span>
+        </a>
+
+        <div class="nav-section-title">AI COPILOT <span class="pill-preview">Phase 1 Preview</span></div>
+
+        <a href="#ai-resume" class="nav-item" data-section="ai-resume">
+          <span class="nav-icon ai-gradient-icon"><i class="fa-solid fa-file-shield"></i></span>
+          <span class="nav-label">AI Resume Analyzer</span>
+        </a>
+
+        <a href="#ai-interview" class="nav-item" data-section="ai-interview">
+          <span class="nav-icon ai-gradient-icon"><i class="fa-solid fa-headset"></i></span>
+          <span class="nav-label">AI Interview Coach</span>
+        </a>
+
+        <a href="#ai-cover-letter" class="nav-item" data-section="ai-cover-letter">
+          <span class="nav-icon ai-gradient-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <span class="nav-label">AI Cover Letter</span>
+        </a>
+
+        <a href="#ai-skills" class="nav-item" data-section="ai-skills">
+          <span class="nav-icon ai-gradient-icon"><i class="fa-solid fa-chart-line"></i></span>
+          <span class="nav-label">AI Skill Gap</span>
+        </a>
+
+        <div class="nav-section-title">INSIGHTS & SETTINGS</div>
+
+        <a href="#analytics" class="nav-item" data-section="analytics">
+          <span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span>
+          <span class="nav-label">Analytics</span>
+        </a>
+
+        <a href="#settings" class="nav-item" data-section="settings">
+          <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+          <span class="nav-label">Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="footer-card">
+          <div class="footer-card-header">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Placement Season</span>
+          </div>
+          <p class="footer-card-text">Keep your streak active! Freshers applying to 5+ jobs weekly have a 3x higher callback rate.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN APP CONTENT -->
+    <div class="main-wrapper">
+      
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-box">
+            <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            <p class="page-subtitle" id="pageSubtitle">Welcome back, fresh graduate! Track your recruitment journey in real-time.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Global Search Shortcut -->
+          <div class="topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="globalSearchInput" placeholder="Quick search companies, roles..." autocomplete="off">
+          </div>
+
+          <!-- Quick Add Button -->
+          <button class="btn btn-primary" id="btnTopbarAdd">
+            <i class="fa-solid fa-plus"></i>
+            <span class="hide-mobile">New Application</span>
+          </button>
+
+          <!-- Notification Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="btn-icon" id="btnNotifications" aria-label="View notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-dot"></span>
+            </button>
+            <div class="dropdown-menu notification-menu" id="notificationDropdown">
+              <div class="dropdown-header">
+                <h4>Notifications</h4>
+                <span class="badge badge-primary">2 New</span>
+              </div>
+              <div class="notification-list">
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-warning-soft">
+                    <i class="fa-solid fa-calendar-day text-warning"></i>
+                  </div>
+                  <div class="notification-body">
+                    <p class="notification-text"><strong>Google Interview</strong> scheduled for Round 1 Technical Screening.</p>
+                    <span class="notification-time">In 2 days • 10:00 AM</span>
+                  </div>
+                </div>
+                <div class="notification-item unread">
+                  <div class="notification-icon bg-success-soft">
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                  </div>
+                  <div class="notification-body">
+                    <p class="notification-text"><strong>Microsoft SDE Intern</strong> status changed to <strong>Selected</strong>! 🎉</p>
+                    <span class="notification-time">Yesterday</span>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notification-icon bg-primary-soft">
+                    <i class="fa-solid fa-robot text-primary"></i>
+                  </div>
+                  <div class="notification-body">
+                    <p class="notification-text">Try the <strong>AI Skill Gap Analyzer</strong> to see what to prepare for Razorpay.</p>
+                    <span class="notification-time">3 days ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile Dropdown Pill -->
+          <div class="topbar-profile" id="topbarProfile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="topbar-avatar" id="topbarAvatar">
+            <span class="topbar-user-name" id="topbarUserName">Alex J.</span>
+            <i class="fa-solid fa-chevron-down profile-chevron"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT SECTIONS (Shown/hidden via active class) -->
+      <main class="content-body">
+
+        <!-- ========================================== -->
+        <!-- 1. DASHBOARD SECTION -->
+        <!-- ========================================== -->
+        <section class="app-section active" id="section-dashboard">
+          
+          <!-- Banner Hero for College Freshers -->
+          <div class="hero-card">
+            <div class="hero-content">
+              <div class="hero-tag"><i class="fa-solid fa-sparkles"></i> College Placement Season 2026</div>
+              <h2 class="hero-title">Stay Organized, Ace Interviews, Land Offers</h2>
+              <p class="hero-desc">You have applied to <strong id="heroTotalCount">8</strong> companies. <strong id="heroInterviewsCount">2 interviews</strong> are lined up this week. Keep momentum high!</p>
+              <div class="hero-actions">
+                <button class="btn btn-white" id="btnHeroAdd">
+                  <i class="fa-solid fa-plus"></i> Log New Application
+                </button>
+                <button class="btn btn-glass" id="btnHeroPrep">
+                  <i class="fa-solid fa-headset"></i> Practice Mock Interview
+                </button>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="hero-stats-badge">
+                <span class="badge-num" id="heroOfferCount">2</span>
+                <span class="badge-label">Offers in Hand</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI Metric Cards (Total, Interviews, Selected, Rejected) -->
+          <div class="kpi-grid">
+            <!-- Card 1: Total Applications -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-box bg-blue">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <span class="kpi-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +4 this week</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-label">Total Applications</span>
+                <h3 class="kpi-value" id="kpiTotalApplications">0</h3>
+              </div>
+              <div class="kpi-footer">
+                <div class="progress-bar">
+                  <div class="progress-fill fill-blue" style="width: 75%;"></div>
+                </div>
+                <span class="kpi-subtext">Active campus & off-campus targets</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Interviews -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-box bg-purple">
+                  <i class="fa-solid fa-calendar-star"></i>
+                </div>
+                <span class="kpi-trend trend-active"><i class="fa-solid fa-clock"></i> Next: In 2 Days</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-label">Interviews Scheduled</span>
+                <h3 class="kpi-value" id="kpiInterviews">0</h3>
+              </div>
+              <div class="kpi-footer">
+                <div class="progress-bar">
+                  <div class="progress-fill fill-purple" style="width: 50%;"></div>
+                </div>
+                <span class="kpi-subtext">Technical & HR rounds</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Offers / Selected -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-box bg-green">
+                  <i class="fa-solid fa-award"></i>
+                </div>
+                <span class="kpi-trend trend-success"><i class="fa-solid fa-star"></i> Great Job!</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-label">Offers (Selected)</span>
+                <h3 class="kpi-value" id="kpiOffers">0</h3>
+              </div>
+              <div class="kpi-footer">
+                <div class="progress-bar">
+                  <div class="progress-fill fill-green" style="width: 25%;"></div>
+                </div>
+                <span class="kpi-subtext">Received acceptance letters</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Rejections & No Response -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-box bg-red">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <span class="kpi-trend trend-neutral"><i class="fa-solid fa-shield-halved"></i> Normal ratio</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-label">Rejected / Closed</span>
+                <h3 class="kpi-value" id="kpiRejections">0</h3>
+              </div>
+              <div class="kpi-footer">
+                <div class="progress-bar">
+                  <div class="progress-fill fill-red" style="width: 15%;"></div>
+                </div>
+                <span class="kpi-subtext">Part of the fresher learning curve</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="dashboard-grid-2">
+            <!-- Chart 1: Status Distribution -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Application Status Breakdown</h3>
+                  <span class="card-subtitle">Distribution across all stages</span>
+                </div>
+                <span class="badge badge-outline">Live</span>
+              </div>
+              <div class="chart-container-donut">
+                <canvas id="dashboardStatusChart"></canvas>
+              </div>
+              <div class="chart-custom-legend" id="dashboardChartLegend"></div>
+            </div>
+
+            <!-- Chart 2: Weekly Applications Pace -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Weekly Application Cadence</h3>
+                  <span class="card-subtitle">Volume of submissions over time</span>
+                </div>
+                <span class="badge badge-purple">Semester Target: 10/wk</span>
+              </div>
+              <div class="chart-container-bar">
+                <canvas id="dashboardActivityChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grid: Recent Applications & Upcoming Interviews -->
+          <div class="dashboard-grid-main">
+            <!-- Left: Recent Applications Table -->
+            <div class="card recent-apps-card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Recent Job Applications</h3>
+                  <span class="card-subtitle">Latest status updates for your applications</span>
+                </div>
+                <button class="btn btn-outline btn-sm" id="btnViewAllApps">
+                  View All <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+              
+              <div class="table-responsive">
+                <table class="data-table" id="dashboardRecentTable">
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Role</th>
+                      <th>Location</th>
+                      <th>Applied Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashboardRecentBody">
+                    <!-- Populated via script.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Right: Upcoming Interviews & Fresher Milestones -->
+            <div class="dashboard-sidebar-column">
+              
+              <!-- Upcoming Interviews Card -->
+              <div class="card interview-widget-card">
+                <div class="card-header">
+                  <div class="card-title-wrap">
+                    <h3 class="card-title"><i class="fa-solid fa-calendar-day text-purple"></i> Upcoming Interviews</h3>
+                    <span class="card-subtitle">Prepare in advance</span>
+                  </div>
+                  <button class="btn btn-text btn-sm" id="btnGoToInterviews">Manage</button>
+                </div>
+                <div class="interview-list-compact" id="dashboardInterviewsList">
+                  <!-- Populated via script.js -->
+                </div>
+              </div>
+
+              <!-- AI Copilot Quick Launch Card -->
+              <div class="card ai-tools-card">
+                <div class="card-header">
+                  <div class="card-title-wrap">
+                    <h3 class="card-title"><i class="fa-solid fa-wand-magic-sparkles text-gradient"></i> AI Fresher Copilot</h3>
+                    <span class="card-subtitle">Boost your chances</span>
+                  </div>
+                </div>
+                <div class="ai-quick-links">
+                  <a href="#ai-resume" class="ai-quick-link-item" data-section="ai-resume">
+                    <div class="ai-ql-icon"><i class="fa-solid fa-file-waveform"></i></div>
+                    <div class="ai-ql-info">
+                      <h4>Resume ATS Check</h4>
+                      <p>Audit keywords against Job Descriptions</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right ai-ql-arrow"></i>
+                  </a>
+                  <a href="#ai-interview" class="ai-quick-link-item" data-section="ai-interview">
+                    <div class="ai-ql-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                    <div class="ai-ql-info">
+                      <h4>Mock Interview Drill</h4>
+                      <p>Practice STAR responses for freshers</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right ai-ql-arrow"></i>
+                  </a>
+                  <a href="#ai-cover-letter" class="ai-quick-link-item" data-section="ai-cover-letter">
+                    <div class="ai-ql-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <div class="ai-ql-info">
+                      <h4>Cover Letter Generator</h4>
+                      <p>Tailored letters in seconds</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right ai-ql-arrow"></i>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 2. MY APPLICATIONS SECTION -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-applications">
+          
+          <!-- Section Header & Filter Controls -->
+          <div class="card filter-card">
+            <div class="filter-card-top">
+              <div>
+                <h2 class="section-heading">My Applications</h2>
+                <p class="section-subheading">Manage, track, and filter your campus and off-campus job applications.</p>
+              </div>
+              <div class="filter-actions-right">
+                <button class="btn btn-outline" id="btnExportCSV" title="Export applications to CSV spreadsheet">
+                  <i class="fa-solid fa-file-csv"></i> Export CSV
+                </button>
+                <button class="btn btn-primary" id="btnAddNewApplication">
+                  <i class="fa-solid fa-plus"></i> Add Application
+                </button>
+              </div>
+            </div>
+
+            <!-- Search, Status Filter, Job Type Filter, Sort -->
+            <div class="filters-row">
+              <div class="filter-input-wrap search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="appSearchInput" placeholder="Search by company name or job role...">
+              </div>
+
+              <div class="filter-input-wrap select-box">
+                <label for="filterStatusSelect">Status:</label>
+                <select id="filterStatusSelect">
+                  <option value="ALL">All Statuses</option>
+                  <option value="Applied">Applied</option>
+                  <option value="Interview">Interview</option>
+                  <option value="Selected">Selected (Offer)</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="No Response">No Response</option>
+                </select>
+              </div>
+
+              <div class="filter-input-wrap select-box">
+                <label for="filterTypeSelect">Type:</label>
+                <select id="filterTypeSelect">
+                  <option value="ALL">All Types</option>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Internship">Internship</option>
+                  <option value="Remote">Remote</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                </select>
+              </div>
+
+              <div class="filter-input-wrap select-box">
+                <label for="filterLocationSelect">Location:</label>
+                <select id="filterLocationSelect">
+                  <option value="ALL">All Locations</option>
+                </select>
+              </div>
+
+              <div class="filter-input-wrap select-box">
+                <label for="sortOrderSelect">Sort:</label>
+                <select id="sortOrderSelect">
+                  <option value="date-desc">Newest First</option>
+                  <option value="date-asc">Oldest First</option>
+                  <option value="company-asc">Company (A-Z)</option>
+                  <option value="company-desc">Company (Z-A)</option>
+                </select>
+              </div>
+
+              <div class="view-toggle-wrap">
+                <button class="btn-view-toggle active" id="btnViewTable" title="Table View">
+                  <i class="fa-solid fa-table-list"></i>
+                </button>
+                <button class="btn-view-toggle" id="btnViewKanban" title="Kanban Board View">
+                  <i class="fa-solid fa-table-columns"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="filter-summary">
+              <span id="filterCountDisplay">Showing 8 applications</span>
+              <button class="btn btn-text btn-sm" id="btnResetFilters">Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Applications View: TABLE -->
+          <div class="card applications-table-view" id="applicationsTableView">
+            <div class="table-responsive">
+              <table class="data-table" id="fullApplicationsTable">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Location</th>
+                    <th>Job Type</th>
+                    <th>Applied Date</th>
+                    <th>Salary / Stipend</th>
+                    <th>Status</th>
+                    <th>Interview Date</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="fullApplicationsBody">
+                  <!-- Populated dynamically via script.js -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="empty-state" id="appsEmptyState" style="display: none;">
+              <div class="empty-icon"><i class="fa-regular fa-folder-open"></i></div>
+              <h3>No Applications Found</h3>
+              <p>No job applications match your search or filter criteria.</p>
+              <button class="btn btn-primary btn-sm" id="btnEmptyReset">Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Applications View: KANBAN BOARD -->
+          <div class="kanban-board-container" id="applicationsKanbanView" style="display: none;">
+            <div class="kanban-grid">
+              
+              <!-- Column: Applied -->
+              <div class="kanban-column" data-status="Applied">
+                <div class="kanban-col-header header-applied">
+                  <div class="col-title-wrap">
+                    <span class="status-dot dot-applied"></span>
+                    <h4>Applied</h4>
+                  </div>
+                  <span class="col-badge" id="countKanbanApplied">0</span>
+                </div>
+                <div class="kanban-cards-wrapper" id="kanbanCardsApplied"></div>
+              </div>
+
+              <!-- Column: Interview -->
+              <div class="kanban-column" data-status="Interview">
+                <div class="kanban-col-header header-interview">
+                  <div class="col-title-wrap">
+                    <span class="status-dot dot-interview"></span>
+                    <h4>Interview</h4>
+                  </div>
+                  <span class="col-badge" id="countKanbanInterview">0</span>
+                </div>
+                <div class="kanban-cards-wrapper" id="kanbanCardsInterview"></div>
+              </div>
+
+              <!-- Column: Selected -->
+              <div class="kanban-column" data-status="Selected">
+                <div class="kanban-col-header header-selected">
+                  <div class="col-title-wrap">
+                    <span class="status-dot dot-selected"></span>
+                    <h4>Selected / Offer</h4>
+                  </div>
+                  <span class="col-badge" id="countKanbanSelected">0</span>
+                </div>
+                <div class="kanban-cards-wrapper" id="kanbanCardsSelected"></div>
+              </div>
+
+              <!-- Column: Rejected -->
+              <div class="kanban-column" data-status="Rejected">
+                <div class="kanban-col-header header-rejected">
+                  <div class="col-title-wrap">
+                    <span class="status-dot dot-rejected"></span>
+                    <h4>Rejected</h4>
+                  </div>
+                  <span class="col-badge" id="countKanbanRejected">0</span>
+                </div>
+                <div class="kanban-cards-wrapper" id="kanbanCardsRejected"></div>
+              </div>
+
+              <!-- Column: No Response -->
+              <div class="kanban-column" data-status="No Response">
+                <div class="kanban-col-header header-no-response">
+                  <div class="col-title-wrap">
+                    <span class="status-dot dot-no-response"></span>
+                    <h4>No Response</h4>
+                  </div>
+                  <span class="col-badge" id="countKanbanNoResponse">0</span>
+                </div>
+                <div class="kanban-cards-wrapper" id="kanbanCardsNoResponse"></div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 3. INTERVIEW TRACKER SECTION -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-interviews">
+          <div class="section-top-banner">
+            <div>
+              <h2 class="section-heading">Interview Tracker</h2>
+              <p class="section-subheading">Organize upcoming rounds, capture notes, and track technical & HR interviews.</p>
+            </div>
+            <button class="btn btn-primary" id="btnScheduleInterviewModal">
+              <i class="fa-solid fa-calendar-plus"></i> Schedule / Update Interview
+            </button>
+          </div>
+
+          <!-- Interview Tabs & Filter -->
+          <div class="interview-tabs-bar">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-tab="upcoming">Upcoming Rounds (<span id="tabCountUpcoming">0</span>)</button>
+              <button class="tab-btn" data-tab="all">All Interviews (<span id="tabCountAll">0</span>)</button>
+            </div>
+          </div>
+
+          <!-- Interviews Cards List -->
+          <div class="interviews-grid" id="interviewsCardsGrid">
+            <!-- Populated via script.js -->
+          </div>
+
+          <!-- Fresher Placement Interview Tips -->
+          <div class="card prep-tips-card">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <h3 class="card-title"><i class="fa-solid fa-lightbulb text-warning"></i> Fresher Placement Interview Checklist</h3>
+                <span class="card-subtitle">Essential tips before attending your technical & HR rounds</span>
+              </div>
+            </div>
+            <div class="tips-grid">
+              <div class="tip-box">
+                <div class="tip-num">1</div>
+                <div>
+                  <h4>Master the STAR Method</h4>
+                  <p>Structure behavioral questions using Situation, Task, Action, and Result to showcase college project impact.</p>
+                </div>
+              </div>
+              <div class="tip-box">
+                <div class="tip-num">2</div>
+                <div>
+                  <h4>Explain Code Out Loud</h4>
+                  <p>Interviewers care about your thought process and problem-solving approach just as much as syntax.</p>
+                </div>
+              </div>
+              <div class="tip-box">
+                <div class="tip-num">3</div>
+                <div>
+                  <h4>Know Your Resume Projects</h4>
+                  <p>Be prepared to discuss technical architecture, challenges faced, and trade-offs of all listed projects.</p>
+                </div>
+              </div>
+              <div class="tip-box">
+                <div class="tip-num">4</div>
+                <div>
+                  <h4>Prepare Reverse Questions</h4>
+                  <p>Always prepare 2 thoughtful questions for the panel regarding company tech stack and onboarding culture.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 4. AI RESUME ANALYZER (PHASE 1 PREVIEW) -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-ai-resume">
+          <!-- Phase Badge Alert -->
+          <div class="phase-notice-banner">
+            <div class="notice-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div class="notice-content">
+              <h4>Phase 1 Interactive Preview • AI Engine Integration in Phase 2</h4>
+              <p>Experience the ATS analysis interface designed for college graduates. In Phase 2, this will connect with Deep Learning NLP models for live resume parsing.</p>
+            </div>
+            <span class="badge badge-purple">Coming in Phase 2</span>
+          </div>
+
+          <div class="ai-two-col-layout">
+            <!-- Left: Inputs -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Resume & Job Description Input</h3>
+                  <span class="card-subtitle">Upload resume and paste target job requirements</span>
+                </div>
+                <button class="btn btn-outline btn-sm" id="btnLoadSampleResume">Load Sample Fresher Resume</button>
+              </div>
+
+              <!-- File Upload Dropzone -->
+              <div class="upload-dropzone" id="resumeDropzone">
+                <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+                <h4 id="dropzoneFileName">Drop your resume here or click to browse</h4>
+                <p>Supports PDF, DOCX, TXT (Max 5MB)</p>
+                <input type="file" id="resumeFileInput" accept=".pdf,.docx,.txt" style="display: none;">
+              </div>
+
+              <div class="form-group mt-3">
+                <label for="aiResumeText">Extracted Resume Text Preview / Edit:</label>
+                <textarea id="aiResumeText" rows="6" placeholder="Resume content will appear here or paste your resume text directly..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="aiJobDescription">Target Job Description (JD):</label>
+                <textarea id="aiJobDescription" rows="5" placeholder="Paste the job description or internship requirements here to calculate ATS match score..."></textarea>
+              </div>
+
+              <button class="btn btn-primary btn-block" id="btnRunResumeAnalysis">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Run ATS Match & Keyword Analysis
+              </button>
+            </div>
+
+            <!-- Right: Results Dashboard Preview -->
+            <div class="card" id="resumeResultsCard">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">ATS Resume Health Score</h3>
+                  <span class="card-subtitle">Simulated ATS evaluation against job requirements</span>
+                </div>
+                <span class="badge badge-success" id="resumeScoreBadge">Good Match</span>
+              </div>
+
+              <div class="score-overview-box">
+                <div class="score-circle-gauge">
+                  <svg viewBox="0 0 36 36" class="circular-chart purple">
+                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    <path class="circle" id="scoreCirclePath" stroke-dasharray="82, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    <text x="18" y="20.35" class="percentage" id="scoreCircleValue">82%</text>
+                  </svg>
+                </div>
+                <div class="score-details">
+                  <h4>Overall Match Index</h4>
+                  <p>Your resume matches key fresher requirements for modern software roles. Check suggestions below to hit 90%+.</p>
+                </div>
+              </div>
+
+              <!-- Keyword Match Breakdown -->
+              <div class="analysis-section">
+                <h4 class="analysis-subtitle">Identified Matching Skills</h4>
+                <div class="skills-tags-list" id="matchedSkillsTags">
+                  <span class="skill-tag match"><i class="fa-solid fa-check"></i> JavaScript</span>
+                  <span class="skill-tag match"><i class="fa-solid fa-check"></i> React.js</span>
+                  <span class="skill-tag match"><i class="fa-solid fa-check"></i> HTML5/CSS3</span>
+                  <span class="skill-tag match"><i class="fa-solid fa-check"></i> Git & GitHub</span>
+                  <span class="skill-tag match"><i class="fa-solid fa-check"></i> REST APIs</span>
+                  <span class="skill-tag match"><i class="fa-solid fa-check"></i> Data Structures</span>
+                </div>
+              </div>
+
+              <div class="analysis-section">
+                <h4 class="analysis-subtitle">Missing Target Keywords (Recommended to add)</h4>
+                <div class="skills-tags-list" id="missingSkillsTags">
+                  <span class="skill-tag missing"><i class="fa-solid fa-plus"></i> TypeScript</span>
+                  <span class="skill-tag missing"><i class="fa-solid fa-plus"></i> Docker Basics</span>
+                  <span class="skill-tag missing"><i class="fa-solid fa-plus"></i> Unit Testing (Jest)</span>
+                  <span class="skill-tag missing"><i class="fa-solid fa-plus"></i> PostgreSQL / SQL</span>
+                </div>
+              </div>
+
+              <!-- Actionable Tips -->
+              <div class="analysis-section">
+                <h4 class="analysis-subtitle">AI Recommendations for Freshers</h4>
+                <ul class="recommendation-list" id="resumeTipsList">
+                  <li><i class="fa-solid fa-circle-check text-success"></i> Highlight live deployment links (Vercel, Netlify) for your top 2 portfolio projects.</li>
+                  <li><i class="fa-solid fa-circle-check text-success"></i> Add measurable impact to academic project descriptions (e.g., "Reduced page load time by 35%").</li>
+                  <li><i class="fa-solid fa-circle-check text-success"></i> Standardize date formats to MM/YYYY to avoid ATS parsing errors.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 5. AI INTERVIEW COACH (PHASE 1 PREVIEW) -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-ai-interview">
+          <!-- Phase Badge Alert -->
+          <div class="phase-notice-banner">
+            <div class="notice-icon"><i class="fa-solid fa-microphone"></i></div>
+            <div class="notice-content">
+              <h4>Phase 1 Interactive Preview • AI Speech & Vision Model in Phase 2</h4>
+              <p>Practice simulated interview prompts tailored for college freshers. Real-time speech evaluation and voice AI will be activated in Phase 2.</p>
+            </div>
+            <span class="badge badge-purple">Coming in Phase 2</span>
+          </div>
+
+          <div class="ai-two-col-layout">
+            <!-- Left: Practice Studio -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Fresher Mock Interview Studio</h3>
+                  <span class="card-subtitle">Select role and practice answers</span>
+                </div>
+              </div>
+
+              <!-- Select Role & Category -->
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="coachRoleSelect">Target Job Track:</label>
+                  <select id="coachRoleSelect">
+                    <option value="frontend">Frontend Developer (Fresher)</option>
+                    <option value="sde">Software Development Engineer (SDE-1)</option>
+                    <option value="data">Junior Data Analyst</option>
+                    <option value="fullstack">Full Stack Web Intern</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="coachCategorySelect">Question Type:</label>
+                  <select id="coachCategorySelect">
+                    <option value="behavioral">Behavioral (STAR Method)</option>
+                    <option value="technical">Technical Fundamentals</option>
+                    <option value="situational">Situational / Problem-Solving</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="question-display-box">
+                <div class="q-badge-wrap">
+                  <span class="badge badge-primary" id="coachQuestionBadge">Question 1 of 5</span>
+                  <button class="btn btn-text btn-sm" id="btnNextQuestion"><i class="fa-solid fa-shuffle"></i> Next Question</button>
+                </div>
+                <h3 class="prompt-text" id="coachQuestionText">"Tell me about a challenging technical bug or problem you solved in a college project. How did you diagnose it?"</h3>
+              </div>
+
+              <div class="form-group mt-3">
+                <div class="label-with-hint">
+                  <label for="coachAnswerInput">Your Answer:</label>
+                  <span class="hint-char" id="coachCharCount">0 characters</span>
+                </div>
+                <textarea id="coachAnswerInput" rows="7" placeholder="Type or outline your answer here using Situation, Task, Action, and Result..."></textarea>
+              </div>
+
+              <div class="coach-action-buttons">
+                <button class="btn btn-outline" id="btnRecordMockup">
+                  <i class="fa-solid fa-microphone text-danger"></i> Simulate Voice Dictation
+                </button>
+                <button class="btn btn-primary" id="btnEvaluateAnswer">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Evaluate My Answer
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Simulated AI Coach Feedback -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">AI Feedback & Answer Breakdown</h3>
+                  <span class="card-subtitle">Real-time coaching insights</span>
+                </div>
+                <span class="badge badge-purple" id="coachScoreBadge">Ready to Test</span>
+              </div>
+
+              <div class="coach-feedback-body" id="coachFeedbackContainer">
+                <div class="feedback-metric-cards">
+                  <div class="fb-metric">
+                    <span class="fb-metric-val" id="fbClarityScore">85%</span>
+                    <span class="fb-metric-label">Clarity & Flow</span>
+                  </div>
+                  <div class="fb-metric">
+                    <span class="fb-metric-val" id="fbStarScore">Yes</span>
+                    <span class="fb-metric-label">STAR Structure</span>
+                  </div>
+                  <div class="fb-metric">
+                    <span class="fb-metric-val" id="fbDepthScore">Strong</span>
+                    <span class="fb-metric-label">Technical Depth</span>
+                  </div>
+                </div>
+
+                <div class="feedback-card-item">
+                  <h4 class="text-success"><i class="fa-solid fa-thumbs-up"></i> What You Did Well</h4>
+                  <p id="coachStrengthText">You clearly stated the problem context and demonstrated structured thinking when isolating the root cause.</p>
+                </div>
+
+                <div class="feedback-card-item">
+                  <h4 class="text-warning"><i class="fa-solid fa-arrow-trend-up"></i> How to Level Up</h4>
+                  <p id="coachImprovementText">Quantify the end outcome! Mention how much faster the page ran or how many users were unaffected after the fix.</p>
+                </div>
+
+                <div class="feedback-card-item">
+                  <h4 class="text-primary"><i class="fa-solid fa-sparkles"></i> Recommended Sample Answer for Freshers</h4>
+                  <div class="model-answer-box" id="coachModelAnswer">
+                    "In our final year capstone project, our React app was experiencing noticeable input lag when rendering a large table of 5,000 campus items. As the frontend lead, I used Chrome DevTools Performance Profiler and pinpointed unnecessary re-renders. I introduced memoization with useMemo, debounced search keystrokes, and virtualized the list using react-window. This slashed re-render time from 420ms to under 16ms."
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 6. AI COVER LETTER GENERATOR (INTERACTIVE) -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-ai-cover-letter">
+          <div class="section-top-banner">
+            <div>
+              <h2 class="section-heading">AI Cover Letter Generator</h2>
+              <p class="section-subheading">Generate high-impact, tailored fresher cover letters highlighting college projects and passion.</p>
+            </div>
+            <span class="badge badge-purple">Interactive Generator</span>
+          </div>
+
+          <div class="ai-two-col-layout">
+            <!-- Left: Inputs -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Application Details</h3>
+                  <span class="card-subtitle">Customize letter tone and focus</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="clCompanyName">Target Company Name: *</label>
+                <input type="text" id="clCompanyName" placeholder="e.g. Google, Razorpay, Swiggy, Startup" value="Razorpay">
+              </div>
+
+              <div class="form-group">
+                <label for="clJobRole">Target Job Title: *</label>
+                <input type="text" id="clJobRole" placeholder="e.g. Associate Frontend Engineer, SDE Intern" value="Associate Frontend Engineer">
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="clTone">Tone of Letter:</label>
+                  <select id="clTone">
+                    <option value="enthusiastic">Enthusiastic & Eager Fresher</option>
+                    <option value="professional">Professional & Technical</option>
+                    <option value="startup">Startup & Fast-Paced</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="clStudentDegree">Degree / Major:</label>
+                  <input type="text" id="clStudentDegree" placeholder="e.g. B.Tech Computer Science (2026)" value="B.Tech Computer Science">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="clTopProject">Key Project / Skill Highlight:</label>
+                <textarea id="clTopProject" rows="3" placeholder="e.g. Built an automated real-time expense tracker with React and Node.js with 1,200 active student users.">Built a full-stack campus collaboration platform with React, Node.js, and MongoDB, handling 1,500 active campus users.</textarea>
+              </div>
+
+              <button class="btn btn-primary btn-block" id="btnGenerateCoverLetter">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Tailored Cover Letter
+              </button>
+            </div>
+
+            <!-- Right: Generated Output -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Generated Cover Letter</h3>
+                  <span class="card-subtitle">Editable preview ready for submission</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-outline btn-sm" id="btnCopyCoverLetter">
+                    <i class="fa-regular fa-copy"></i> Copy
+                  </button>
+                  <button class="btn btn-outline btn-sm" id="btnDownloadCoverLetter">
+                    <i class="fa-solid fa-download"></i> Save .txt
+                  </button>
+                </div>
+              </div>
+
+              <div class="cover-letter-preview-box">
+                <textarea id="coverLetterOutput" rows="18" class="cover-letter-textarea"></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 7. AI SKILL GAP ANALYZER (INTERACTIVE) -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-ai-skills">
+          <!-- Phase Badge Alert -->
+          <div class="phase-notice-banner">
+            <div class="notice-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="notice-content">
+              <h4>Phase 1 Interactive Preview • Dynamic Skill Graph in Phase 2</h4>
+              <p>Identify missing skills required by top hiring companies and get a structured 4-week learning roadmap for college placements.</p>
+            </div>
+            <span class="badge badge-purple">Coming in Phase 2</span>
+          </div>
+
+          <div class="ai-two-col-layout">
+            <!-- Left: Target Role & Current Skills -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Skill Profile & Target Role</h3>
+                  <span class="card-subtitle">Compare your current stack against industry benchmarks</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="skillTargetRoleSelect">Select Your Target Fresher Track:</label>
+                <select id="skillTargetRoleSelect">
+                  <option value="frontend">Frontend Engineer (React / Next.js)</option>
+                  <option value="backend">Backend Engineer (Node.js / Python / Java)</option>
+                  <option value="fullstack">Full-Stack Web Developer (MERN)</option>
+                  <option value="data">Data Analyst / Machine Learning Intern</option>
+                  <option value="devops">Cloud & DevOps Trainee</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Your Current Mastered Skills:</label>
+                <div class="skill-input-container">
+                  <input type="text" id="skillNewInput" placeholder="Add a skill (e.g. C++, Java, Git) and press Enter">
+                  <button class="btn btn-outline btn-sm" id="btnAddSkillTag">Add</button>
+                </div>
+                <div class="skills-tags-editable" id="userSkillsTagContainer">
+                  <!-- Tag elements populated via script.js -->
+                </div>
+              </div>
+
+              <button class="btn btn-primary btn-block" id="btnRunSkillAnalysis">
+                <i class="fa-solid fa-magnifying-glass-chart"></i> Run Skill Gap Analysis
+              </button>
+            </div>
+
+            <!-- Right: Results & 4-Week Roadmap -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Skill Match & Fresher Roadmap</h3>
+                  <span class="card-subtitle">Bridge the gap before campus drives</span>
+                </div>
+                <span class="badge badge-primary" id="skillMatchPercentBadge">68% Match</span>
+              </div>
+
+              <div class="skill-match-bar-wrap">
+                <div class="skill-bar-labels">
+                  <span>Fresher Readiness Score</span>
+                  <strong id="skillMatchLabel">68% Ready</strong>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill fill-purple" id="skillProgressBar" style="width: 68%;"></div>
+                </div>
+              </div>
+
+              <div class="skills-comparison-grid">
+                <div class="skill-category-box">
+                  <h4><i class="fa-solid fa-circle-check text-success"></i> Ready & Validated</h4>
+                  <div class="skills-tags-list" id="readySkillsList">
+                    <span class="skill-tag match">HTML5</span>
+                    <span class="skill-tag match">CSS3</span>
+                    <span class="skill-tag match">JavaScript</span>
+                    <span class="skill-tag match">React.js</span>
+                    <span class="skill-tag match">Git</span>
+                  </div>
+                </div>
+
+                <div class="skill-category-box">
+                  <h4><i class="fa-solid fa-triangle-exclamation text-warning"></i> Recommended to Learn</h4>
+                  <div class="skills-tags-list" id="gapSkillsList">
+                    <span class="skill-tag missing">TypeScript</span>
+                    <span class="skill-tag missing">PostgreSQL</span>
+                    <span class="skill-tag missing">Docker Basics</span>
+                    <span class="skill-tag missing">Unit Testing (Jest)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4-Week Roadmap -->
+              <div class="roadmap-box">
+                <h4 class="roadmap-title"><i class="fa-solid fa-route text-purple"></i> 4-Week Placement Prep Roadmap</h4>
+                <div class="roadmap-timeline" id="skillRoadmapTimeline">
+                  <!-- Populated via script.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 8. ANALYTICS SECTION -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-analytics">
+          <div class="section-top-banner">
+            <div>
+              <h2 class="section-heading">Application Analytics</h2>
+              <p class="section-subheading">In-depth visual insights into your job hunt conversion funnels and interview rates.</p>
+            </div>
+            <div class="date-badge">
+              <i class="fa-regular fa-calendar"></i> Placement Season 2026
+            </div>
+          </div>
+
+          <!-- Quick Metrics Grid -->
+          <div class="analytics-metrics-grid">
+            <div class="metric-card">
+              <span class="metric-title">Interview Conversion Rate</span>
+              <h3 class="metric-val" id="analyticsInterviewRate">25.0%</h3>
+              <p class="metric-note">Applications leading to interview calls</p>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Offer Conversion Rate</span>
+              <h3 class="metric-val" id="analyticsOfferRate">25.0%</h3>
+              <p class="metric-note">Offers secured from total applications</p>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Response Rate</span>
+              <h3 class="metric-val" id="analyticsResponseRate">87.5%</h3>
+              <p class="metric-note">Companies that have responded so far</p>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Active Pipeline</span>
+              <h3 class="metric-val" id="analyticsActivePipeline">4</h3>
+              <p class="metric-note">Applications in progress (Applied/Interview)</p>
+            </div>
+          </div>
+
+          <!-- Analytics Charts -->
+          <div class="dashboard-grid-2 mt-4">
+            <!-- Chart 1: Placement Funnel -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Placement Funnel</h3>
+                  <span class="card-subtitle">Progression from submission to offer</span>
+                </div>
+              </div>
+              <div class="funnel-container" id="analyticsFunnelContainer">
+                <!-- Dynamically generated funnel bars -->
+              </div>
+            </div>
+
+            <!-- Chart 2: Job Type Distribution -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Applications by Job Type</h3>
+                  <span class="card-subtitle">Full-time vs Internships vs Remote</span>
+                </div>
+              </div>
+              <div class="chart-container-donut">
+                <canvas id="analyticsJobTypeChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full Width Chart: Monthly Timeline -->
+          <div class="card chart-card mt-4">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <h3 class="card-title">Monthly Application Timeline</h3>
+                <span class="card-subtitle">Tracking your application cadence month-by-month</span>
+              </div>
+            </div>
+            <div class="chart-container-timeline">
+              <canvas id="analyticsTimelineChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 9. SETTINGS SECTION -->
+        <!-- ========================================== -->
+        <section class="app-section" id="section-settings">
+          <div class="section-top-banner">
+            <div>
+              <h2 class="section-heading">Account & System Settings</h2>
+              <p class="section-subheading">Personalize your student profile, manage data backups, and configure preferences.</p>
+            </div>
+          </div>
+
+          <div class="ai-two-col-layout">
+            <!-- Left: Student Profile -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Fresher Student Profile</h3>
+                  <span class="card-subtitle">This details personalize your dashboard and cover letters</span>
+                </div>
+              </div>
+
+              <form id="settingsProfileForm">
+                <div class="form-group">
+                  <label for="setStudentName">Full Name:</label>
+                  <input type="text" id="setStudentName" value="Alex Johnson" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="setUniversity">College / University:</label>
+                  <input type="text" id="setUniversity" value="National Institute of Technology" required>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="setDegree">Degree / Major:</label>
+                    <input type="text" id="setDegree" value="B.Tech Computer Science" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="setGradYear">Graduation Year:</label>
+                    <input type="number" id="setGradYear" value="2026" min="2023" max="2030" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="setTargetRoles">Target Job Roles (Comma-separated):</label>
+                  <input type="text" id="setTargetRoles" value="Frontend Developer, SDE-1, Full Stack Intern">
+                </div>
+
+                <div class="form-group">
+                  <label for="setEmail">Email Address:</label>
+                  <input type="email" id="setEmail" value="alex.johnson@student.edu">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btnSaveSettings">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
+                </button>
+              </form>
+            </div>
+
+            <!-- Right: Data Management & Reset -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title-wrap">
+                  <h3 class="card-title">Data Backup & Reset</h3>
+                  <span class="card-subtitle">Manage local storage data for this project</span>
+                </div>
+              </div>
+
+              <div class="settings-action-block">
+                <div class="action-desc">
+                  <h4>Export Applications (CSV)</h4>
+                  <p>Download your complete tracker data as a spreadsheet-compatible CSV file (Excel, Sheets).</p>
+                </div>
+                <button class="btn btn-outline" id="btnExportDataCSV">
+                  <i class="fa-solid fa-file-csv"></i> Export CSV
+                </button>
+              </div>
+
+              <div class="settings-action-block">
+                <div class="action-desc">
+                  <h4>Export Applications (JSON)</h4>
+                  <p>Download your complete tracker data as a JSON file to keep an offline backup.</p>
+                </div>
+                <button class="btn btn-outline" id="btnExportData">
+                  <i class="fa-solid fa-file-export"></i> Export JSON
+                </button>
+              </div>
+
+              <div class="settings-action-block">
+                <div class="action-desc">
+                  <h4>Import Applications (JSON)</h4>
+                  <p>Restore your saved applications from an exported JSON file.</p>
+                </div>
+                <div>
+                  <button class="btn btn-outline" id="btnTriggerImport">
+                    <i class="fa-solid fa-file-import"></i> Choose File
+                  </button>
+                  <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                </div>
+              </div>
+
+              <div class="settings-action-block">
+                <div class="action-desc">
+                  <h4>Restore Default Demo Data</h4>
+                  <p>Re-populate the dashboard with sample college fresher applications (Google, Razorpay, Microsoft, etc.).</p>
+                </div>
+                <button class="btn btn-warning" id="btnResetSampleData">
+                  <i class="fa-solid fa-rotate-left"></i> Restore Sample Data
+                </button>
+              </div>
+
+              <div class="settings-action-block danger-zone">
+                <div class="action-desc">
+                  <h4>Clear All Applications</h4>
+                  <p>Permanently remove all applications from browser local storage.</p>
+                </div>
+                <button class="btn btn-danger" id="btnClearAllData">
+                  <i class="fa-solid fa-trash-can"></i> Clear All Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADD / EDIT JOB APPLICATION -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="applicationModalBackdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <h3 class="modal-title" id="modalTitle">Add Job Application</h3>
+          <span class="modal-subtitle">Track every detail of your job submission</span>
+        </div>
+        <button class="modal-close-btn" id="btnModalClose" aria-label="Close Modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="applicationForm" novalidate>
+        <input type="hidden" id="formAppId">
+
+        <div class="modal-body">
+          
+          <!-- Row 1: Company & Role -->
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="formCompany">Company Name: <span class="required">*</span></label>
+              <input type="text" id="formCompany" placeholder="e.g. Google, Razorpay, Infosys" required>
+              <span class="form-error" id="errCompany">Please enter the company name.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="formRole">Job Role: <span class="required">*</span></label>
+              <input type="text" id="formRole" placeholder="e.g. SDE Intern, Frontend Engineer" required>
+              <span class="form-error" id="errRole">Please enter the job role.</span>
+            </div>
+          </div>
+
+          <!-- Row 2: Location & Job Type -->
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="formLocation">Location:</label>
+              <input type="text" id="formLocation" placeholder="e.g. Bengaluru, Remote, Pune, Hyderabad" value="Remote">
+            </div>
+
+            <div class="form-group">
+              <label for="formType">Job Type:</label>
+              <select id="formType">
+                <option value="Full-time">Full-time</option>
+                <option value="Internship" selected>Internship</option>
+                <option value="Remote">Remote</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 3: Application Date & Salary/Stipend -->
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="formDate">Application Date: <span class="required">*</span></label>
+              <input type="date" id="formDate" required>
+              <span class="form-error" id="errDate">Please select the application date.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="formSalary">Salary / Stipend:</label>
+              <input type="text" id="formSalary" placeholder="e.g. ₹40,000/mo or 12 LPA or $80,000">
+            </div>
+          </div>
+
+          <!-- Row 4: Status & Job Link -->
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="formStatus">Application Status: <span class="required">*</span></label>
+              <select id="formStatus" required>
+                <option value="Applied" selected>Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Selected">Selected (Offer)</option>
+                <option value="Rejected">Rejected</option>
+                <option value="No Response">No Response</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="formLink">Job Posting / Portal Link:</label>
+              <input type="url" id="formLink" placeholder="https://careers.company.com/job/123">
+              <span class="form-error" id="errLink">Please enter a valid URL (starting with http:// or https://).</span>
+            </div>
+          </div>
+
+          <!-- Row 5: Interview Date & Round -->
+          <div class="form-row-2" id="formInterviewGroup">
+            <div class="form-group" id="formInterviewDateGroup">
+              <label for="formInterviewDate">Interview Date & Time (if scheduled):</label>
+              <input type="datetime-local" id="formInterviewDate">
+              <span class="form-hint">Shown in Upcoming Interviews widget on Dashboard.</span>
+            </div>
+
+            <div class="form-group" id="formInterviewRoundGroup">
+              <label for="formInterviewRound">Interview Round / Stage:</label>
+              <input type="text" id="formInterviewRound" placeholder="e.g. Round 1 (DSA), HR Round">
+              <span class="form-hint">e.g. Technical Round 1, System Design, HR</span>
+            </div>
+          </div>
+
+          <!-- Row 6: Notes -->
+          <div class="form-group">
+            <label for="formNotes">Notes & Preparation Details:</label>
+            <textarea id="formNotes" rows="3" placeholder="Add recruiter contact, referral employee, technical stack requirements, or interview prep notes..."></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnModalCancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnModalSubmit">
+            <i class="fa-solid fa-floppy-disk"></i> Save Application
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: DELETE CONFIRMATION DIALOG -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="deleteConfirmModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <div class="modal-dialog modal-dialog-sm">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <h3 class="modal-title text-danger" id="deleteModalTitle"><i class="fa-solid fa-triangle-exclamation"></i> Confirm Deletion</h3>
+          <span class="modal-subtitle">Permanent action</span>
+        </div>
+        <button class="modal-close-btn" id="btnDeleteModalClose" aria-label="Close Dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteModalMessage" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Are you sure you want to delete this job application? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="btnDeleteModalCancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btnDeleteModalConfirm">
+          <i class="fa-solid fa-trash-can"></i> Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <!-- ========================================== -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- JavaScript logic -->
+  <script src="script.js"></script>
+</body>
+</html>
